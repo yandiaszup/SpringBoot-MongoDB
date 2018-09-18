@@ -1,8 +1,10 @@
 package com.example.SpringMongoDb.resources;
 
 import com.example.SpringMongoDb.Service.UserService;
+import com.example.SpringMongoDb.domain.Post;
 import com.example.SpringMongoDb.domain.User;
 import com.example.SpringMongoDb.dto.UserDTO;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +56,10 @@ public class UserResource {
         obj.setId(id);
         obj = userService.update(obj);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping(value = "/{id}/posts")
+    public ResponseEntity<List<Post>> findposts(@PathVariable String id){
+        User obj = userService.findById(id);
+        return ResponseEntity.ok().body(obj.getPosts());
     }
 }
