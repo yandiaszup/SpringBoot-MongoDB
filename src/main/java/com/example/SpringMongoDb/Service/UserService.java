@@ -2,6 +2,7 @@ package com.example.SpringMongoDb.Service;
 
 import com.example.SpringMongoDb.Service.exception.ObjectNotFoundException;
 import com.example.SpringMongoDb.domain.User;
+import com.example.SpringMongoDb.dto.UserDTO;
 import com.example.SpringMongoDb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,4 +24,13 @@ public class UserService {
         Optional<User> obj = userRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("User not found"));
     }
+
+    public User insert(User obj){
+        return userRepository.insert(obj);
+    }
+
+    public User fromDTO(UserDTO objDto){
+        return new User(objDto.getId(),objDto.getName(),objDto.getEmail());
+    }
+
 }
