@@ -5,6 +5,7 @@ import com.example.SpringMongoDb.Service.UserService;
 import com.example.SpringMongoDb.domain.Post;
 import com.example.SpringMongoDb.domain.User;
 import com.example.SpringMongoDb.dto.UserDTO;
+import com.example.SpringMongoDb.resources.util.URL;
 import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,13 @@ public class PostResource {
     public ResponseEntity<Post> findById(@PathVariable String id){
         Post obj = postService.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping(value = "/titlesearch")
+    public ResponseEntity<List<Post>> findByTitle(@RequestParam(value = "text", defaultValue = "") String text){
+        text = URL.decodeParam(text);
+        List<Post> list = postService.findByTitle(text);
+        return ResponseEntity.ok().body(list);
     }
 
 }
