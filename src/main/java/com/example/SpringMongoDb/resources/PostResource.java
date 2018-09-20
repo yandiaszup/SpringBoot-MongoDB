@@ -14,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -36,5 +37,18 @@ public class PostResource {
         List<Post> list = postService.findByTitle(text);
         return ResponseEntity.ok().body(list);
     }
+
+    @GetMapping(value = "/fullsearch")
+    public ResponseEntity<List<Post>> fullsearch(@RequestParam(value = "text", defaultValue = "") String text,
+                                                 @RequestParam(value = "minDate", defaultValue = "") String minDate,
+                                                 @RequestParam(value = "maxDate", defaultValue = "") String maxDate){
+        text = URL.decodeParam(text);
+        Date min = URL.convertDate(minDate, new Date(0L)); // data padrão
+        Date max = URL.convertDate(minDate, new Date()); // data atual do sistema
+
+        List<Post> list = postService.fullSearch(text,min,max);
+        return ResponseEntity.ok().body(list);
+    }
+
 
 }
